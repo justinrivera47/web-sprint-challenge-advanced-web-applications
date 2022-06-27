@@ -17,7 +17,7 @@ export default function App() {
   const [articles, setArticles] = useState([])
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
-
+console.log(currentArticleId)
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate()
   const redirectToLogin = () => { /* ✨ implement */ navigate('/')}
@@ -87,7 +87,6 @@ export default function App() {
     // to inspect the response from the server.
     axiosWithAuth().post(articlesUrl, article)
     .then(res => {
-      console.log(res)
       setMessage('')
       // setSpinnerOn(true)
       setArticles([...articles, res.data.article])
@@ -103,12 +102,12 @@ export default function App() {
     // ✨ implement
     // You got this!
     const { article_id, ...changes  } = article
+    setCurrentArticleId(null)
     axiosWithAuth().put(`${articlesUrl}/${article_id}`, changes)
     .then(res => {
       setArticles(articles.map(art => {
       return art.article_id === res.data.article.article_id ? res.data.article : art
     })) 
-      setCurrentArticleId(null)
       setMessage(res.data.message)
     })
     .catch(err => {
